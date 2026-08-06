@@ -54,7 +54,7 @@ pipeline {
             steps {
                 echo "Packaging build #${env.BUILD_NUMBER}..."
                 // Pass the unique Jenkins build number into the Maven build
-                sh "./mvnw package -DskipTests -Dspring.profiles.active=${params.ENVIRONMENT} -Dbuild.number=${env.BUILD_NUMBER}"
+                sh "./mvnw package -DskipTests  -Dbuild.number=${env.BUILD_NUMBER}"
             }
         }
 
