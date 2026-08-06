@@ -1,6 +1,18 @@
 pipeline {
     agent any
 
+    parameters {
+        choice(
+            name: 'ENVIRONMENT',
+            choices: ['dev', 'qa'],
+            description: 'Select the target environment profile to build'
+        )
+    }
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '30', artifactNumToKeepStr: '15'))
+    }
+
     tools {
         // Must match the name defined in Jenkins -> Tools -> JDK / Maven
         maven 'Maven-3.9'
@@ -12,7 +24,6 @@ pipeline {
     }
 
     stages {
-
         stage('Checkout') {
             steps {
                 checkout scm
@@ -43,7 +54,7 @@ pipeline {
             steps {
                 echo "Packaging build #${env.BUILD_NUMBER}..."
                 // Pass the unique Jenkins build number into the Maven build
-                sh "./mvnw package -DskipTests -Dbuild.number=${env.BUILD_NUMBER}"
+                sh "./mvnw package -DskipTests -Dspring.profiles.active=${params.ENVIRONMENT} -Dbuild.number=${env.BUILD_NUMBER}"
             }
         }
 
