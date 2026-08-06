@@ -8,8 +8,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1")
 public class HelloController {
 
-    @GetMapping
+    @GetMapping("/hello")
     public String hello() {
         return "Hello World Jenkins Pipelines";
+    }
+
+    @GetMapping("/hi")
+    public String hi() {
+        return "Hi there! Jenkins Pipelines are working!";
     }
 }
