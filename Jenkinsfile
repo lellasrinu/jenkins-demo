@@ -12,11 +12,7 @@ pipeline {
     }
 
     stages {
-        stage('Clean Workspace') {
-            steps {
-                cleanWs() // Cleans the workspace before pulling fresh code
-            }
-        }
+
         stage('Checkout') {
             steps {
                 checkout scm
