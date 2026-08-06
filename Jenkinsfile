@@ -12,6 +12,11 @@ pipeline {
     }
 
     stages {
+        stage('Clean Workspace') {
+            steps {
+                cleanWs() // Cleans the workspace before pulling fresh code
+            }
+        }
         stage('Checkout') {
             steps {
                 checkout scm
@@ -40,15 +45,16 @@ pipeline {
 
         stage('Package JAR') {
             steps {
-                echo 'Packaging application executable...'
-                sh './mvnw package -DskipTests'
+                echo "Packaging build #${env.BUILD_NUMBER}..."
+                // Pass the unique Jenkins build number into the Maven build
+                sh "./mvnw package -DskipTests -Dbuild.number=${env.BUILD_NUMBER}"
             }
         }
 
         stage('Archive Artifacts') {
             steps {
                 // Archives the resulting JAR file so it can be deployed or downloaded
-                archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: false
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
     }
