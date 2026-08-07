@@ -3,9 +3,9 @@ pipeline {
 
     parameters {
         choice(
-            name: 'ENVIRONMENT',
-            choices: ['dev', 'qa'],
-            description: 'Select the target environment profile to build'
+                name: 'ENVIRONMENT',
+                choices: ['dev', 'qa'],
+                description: 'Select the target environment profile to build'
         )
     }
 
