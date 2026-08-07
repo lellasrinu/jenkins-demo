@@ -21,24 +21,18 @@ pipeline {
         stage('Compile & Lint') {
             steps {
                 echo 'Compiling the application...'
-                script {
-                    if (isUnix()) {
-                        sh './mvnw clean compile'
-                    } else {
-                        bat 'mvnw.cmd clean compile'
-                    }
-                }
+                // Use 'bat' for Windows instead of 'sh'
+                bat 'mvnw.cmd clean compile'
             }
         }
 
         stage('Unit & Integration Tests') {
             steps {
                 echo 'Running unit tests...'
-                sh './mvnw test'
+                bat 'mvnw.cmd test'
             }
             post {
                 always {
-                    // Publishes JUnit test results in Jenkins UI
                     junit '**/target/surefire-reports/*.xml'
                 }
             }
@@ -47,14 +41,12 @@ pipeline {
         stage('Package JAR') {
             steps {
                 echo "Packaging build #${env.BUILD_NUMBER}..."
-                // Pass the unique Jenkins build number into the Maven build
-                sh "./mvnw package -DskipTests  -Dbuild.number=${env.BUILD_NUMBER}"
+                bat "mvnw.cmd package -DskipTests -Dbuild.number=${env.BUILD_NUMBER}"
             }
         }
 
         stage('Archive Artifacts') {
             steps {
-                // Archives the resulting JAR file so it can be deployed or downloaded
                 archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
