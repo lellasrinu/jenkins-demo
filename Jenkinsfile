@@ -21,7 +21,13 @@ pipeline {
         stage('Compile & Lint') {
             steps {
                 echo 'Compiling the application...'
-                sh './mvnw clean compile' // or 'mvn clean compile' if wrapper isn't used
+                script {
+                    if (isUnix()) {
+                        sh './mvnw clean compile'
+                    } else {
+                        bat 'mvnw.cmd clean compile'
+                    }
+                }
             }
         }
 
