@@ -1,5 +1,0 @@
-server:
-  port: 8086
-
-app:
-  message: "QA time"

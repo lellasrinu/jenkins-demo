@@ -1,18 +1,6 @@
 pipeline {
     agent any
 
-    parameters {
-        choice(
-                name: 'ENVIRONMENT',
-                choices: ['dev', 'qa'],
-                description: 'Select the target environment profile to build'
-        )
-    }
-
-    options {
-        buildDiscarder(logRotator(numToKeepStr: '30', artifactNumToKeepStr: '15'))
-    }
-
     tools {
         // Must match the name defined in Jenkins -> Tools -> JDK / Maven
         maven 'Maven-3.9'

@@ -2,4 +2,8 @@ spring:
   application:
     name: jenkins-demo
 
+server:
+  port: 8085
 
+app:
+  message: "testing custom values"
